@@ -38,7 +38,7 @@ const timeline = [
     title: "ICSE",
     place: "St. Helena's High School",
     city: "Pune",
-    detail: "This is where I built the academic foundation that later carried into engineering and software work.",
+    detail: "Built a strong academic foundation that later supported engineering and software development work.",
     type: "education",
   },
   {
@@ -46,7 +46,7 @@ const timeline = [
     title: "ISC",
     place: "Hutchings Junior College",
     city: "Pune",
-    detail: "I completed higher secondary education here before moving into engineering full-time.",
+    detail: "Completed higher secondary education before moving into engineering studies full-time.",
     type: "education",
   },
   {
@@ -54,7 +54,7 @@ const timeline = [
     title: "BTech",
     place: "Savitribai Phule Pune University",
     city: "Pune",
-    detail: "I graduated with 8.7 SGPA and moved straight into building real products.",
+    detail: "Graduated with 8.7 SGPA and moved directly into product engineering work.",
     type: "education",
   },
   {
@@ -63,7 +63,7 @@ const timeline = [
     place: "Fourier Technologies",
     city: "Pune",
     detail:
-      "This phase built depth across app development, backend services, AWS, IoT workflows, and end-to-end delivery.",
+      "Built depth across application development, backend services, AWS, IoT workflows, and end-to-end delivery.",
     type: "work",
   },
   {
@@ -72,7 +72,7 @@ const timeline = [
     place: "Nuro Technologies · Full-time",
     city: "Pune, Maharashtra, India",
     detail:
-      "This work involved connected-device systems, production cloud workflows, mobile features, and solving the practical issues that show up in real deployments.",
+      "Worked on connected-device systems, production cloud workflows, mobile features, and deployment-critical product behavior.",
     type: "work",
   },
   {
@@ -81,7 +81,7 @@ const timeline = [
     place: "Hexatic · Full-time",
     city: "Pune, Maharashtra, India",
     detail:
-      "This role adds another layer of product ownership, from implementation detail to shipping features that have to work reliably in the hands of real users.",
+      "Leads product engineering work with stronger ownership across implementation details, system behavior, and reliable feature delivery.",
     type: "work",
   },
 ];
@@ -152,7 +152,7 @@ const projects = [
     id: "carbon",
     title: "AI Carbon Impact",
     type: "Personal",
-    image: asset("ai-carbon-screenshot.png"),
+    image: asset("ai-carbon-scene.svg"),
     tags: ["JavaScript", "Storytelling", "Sustainability", "Interactive UI"],
     summary:
       "I created this project to make AI usage and carbon impact easier to understand through interactive storytelling.",
