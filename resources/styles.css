@@ -499,6 +499,39 @@ img {
   line-height: 1.7;
 }
 
+.project-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.project-title-row h3 {
+  margin: 0;
+}
+
+.project-link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  color: var(--rose-deep);
+  background: rgba(215, 199, 255, 0.45);
+  border: 1px solid rgba(115, 65, 215, 0.12);
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.project-link-icon:hover {
+  transform: translateY(-1px);
+  background: rgba(215, 199, 255, 0.72);
+}
+
+.project-link-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
 .tag {
   padding: 9px 12px;
   background: rgba(255, 231, 158, 0.55);

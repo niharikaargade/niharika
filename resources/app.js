@@ -152,17 +152,17 @@ const projects = [
     id: "carbon",
     title: "AI Carbon Impact",
     type: "Personal",
-    image: asset("ai-carbon-scene.svg"),
-    tags: ["JavaScript", "Storytelling", "Sustainability", "Interactive UI"],
+    image: asset("ai-carbon-screenshot.png"),
+    tags: ["JavaScript", "Product Design", "Sustainability", "UI"],
     summary:
-      "I created this project to make AI usage and carbon impact easier to understand through interactive storytelling.",
+      "I created this project to make AI usage and carbon impact easier to understand through a clear visual experience.",
     bullets: [
       "I turned abstract AI consumption into something easier to understand with practical comparisons.",
       "I focused on clarity and user understanding, not only raw numbers.",
       "It reflects how I like to combine technical thinking with communication.",
     ],
     insight:
-      "The fun part here was turning a complicated idea into something visual, interactive, and easy to explore.",
+      "The fun part here was turning a complicated idea into something visual, clear, and easy to explore.",
     href: "https://niharikaargade.github.io/ai-carbon-impact/",
     hrefLabel: "Open site",
   },
@@ -427,13 +427,47 @@ function App() {
               <div className="project-copy">
                 <div className="project-topline">
                   <span className="detail-chip">{selectedProject.type}</span>
+                </div>
+                <div className="project-title-row">
+                  <h3>{selectedProject.title}</h3>
                   {selectedProject.href ? (
-                    <a href={selectedProject.href} target="_blank" rel="noreferrer">
-                      {selectedProject.hrefLabel || "Open link"}
+                    <a
+                      className="project-link-icon"
+                      href={selectedProject.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={selectedProject.hrefLabel || `Open ${selectedProject.title}`}
+                      title={selectedProject.hrefLabel || `Open ${selectedProject.title}`}
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                          d="M14 5h5v5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M10 14 19 5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M19 13v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </a>
                   ) : null}
                 </div>
-                <h3>{selectedProject.title}</h3>
                 <p>{selectedProject.summary}</p>
                 <div className="tag-row">
                   {selectedProject.tags.map((tag) => (
@@ -509,7 +543,7 @@ function App() {
         <section className="panel media-panel">
           <div className="section-heading">
             <p className="panel-label">Watch + follow</p>
-            <h2>Places to find my work and story</h2>
+            <h2>Places to find my work</h2>
           </div>
 
           <div className="media-grid">
