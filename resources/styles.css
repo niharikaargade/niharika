@@ -707,6 +707,12 @@ img {
   text-align: center;
 }
 
+.copyright {
+  margin-top: 14px;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
 .bmc-link {
   display: inline-flex;
   margin-top: 10px;

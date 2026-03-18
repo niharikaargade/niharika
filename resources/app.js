@@ -558,6 +558,9 @@ function App() {
             alt="Buy Me a Coffee badge"
           />
         </a>
+        <p className="copyright">
+          Copyright © 2026 Niharika Argade. All rights reserved.
+        </p>
       </footer>
     </div>
   );
