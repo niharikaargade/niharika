@@ -1,76 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Niharika Argade</title>
-    <link rel="stylesheet" href="resources/styles.css">
-    <!-- JS library : JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!--  Animation library : anime.js -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.js"></script> -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Niharika Argade | Resume Story</title>
+    <meta
+      name="description"
+      content="An interactive resume and personal story site for Niharika Argade."
+    />
+    <link rel="icon" type="image/jpeg" href="resources/images/site-favicon.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@500;600;700&family=Patrick+Hand&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="resources/styles.css" />
   </head>
   <body>
-    <div class="site">
-      <div class="description">
-        <div class="name">
-          <h1> Hello, I'm Niharika </h1>
-        </div>
-        <div class="profession">
-        <h5> Full stack developer </h5>
-        </div>
-      </div>
-      <div class="technologyStack">
-        <h3>My Stack</h3>
-            <div class="frontEnd">
-            Front-end
-            </div>
-            <div class="backEnd">
-              Back-end
-            </div>
-            <div class="database">
-              Database
-            </div>
-      </div>
-      <div class="lastPage">
-      <div class="experience">
-      <h3>My Journey</h3>
-      <table cellspacing="30">
-        <thead>
-          <tr>
-            <td>Organisation</td>
-            <td>Duration</td>
-            <td>Role</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Fourier Technologies</td>
-            <td>June, 2019 to July, 2020</td>
-            <td>Intern</td>
-          </tr>
-          <tr>
-            <td>Fourier Technologies</td>
-            <td>July, 2020 to current</td>
-            <td>Consultant</td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
-      <div class="contact">
-        <br>
-        <hr>
-      <h5>Get In Touch</h5>
-        <div class="contactLinks">
-          <a href="https://www.linkedin.com/in/niharika-argade-a78307189/" target="_blank">linkedin</a> |
-          <a href="https://github.com/niharikaargade" target="_blank">github</a> |
-          <a href="https://stackoverflow.com/users/11989109/niharika-argade" target="_blank">stackoverflow</a> |
-          <a href="mailto:argade.niharika@gmail.com">email</a> |
-          <a href="https://www.instagram.com/niharika12345678910/" target="_blank">instagram</a>
-        </div>
-      </div>
-      </div>
-  </div>
+    <div id="root"></div>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel" src="resources/app.js"></script>
   </body>
 </html>
