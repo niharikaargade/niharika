@@ -1,4 +1,5 @@
 const { useEffect, useMemo, useState } = React;
+const asset = (path) => `/niharika/resources/images/${path}`;
 
 const socialLinks = [
   {
@@ -15,7 +16,7 @@ const socialLinks = [
     label: "Instagram",
     href: "https://www.instagram.com/jam.jam2015/",
     note: "jam.jam horse account",
-    image: "resources/images/jamjam-profile.jpg",
+    image: asset("jamjam-profile.jpg"),
   },
   {
     label: "YouTube",
@@ -113,7 +114,7 @@ const projects = [
     id: "britehome",
     title: "BriteHome",
     type: "Work",
-    image: "resources/images/britehome-article-cover.jpg",
+    image: asset("britehome-article-cover.jpg"),
     tags: ["React Native", "AWS", "IoT", "Spring", "PostgreSQL"],
     summary:
       "I build connected-home features across mobile, backend, automation, and device workflows.",
@@ -132,7 +133,7 @@ const projects = [
     id: "dealbazar",
     title: "Deal Bazar",
     type: "Work",
-    image: "resources/images/thigma-profile.jpg",
+    image: asset("thigma-profile.jpg"),
     tags: ["React Native", "XMPP", "Ejabberd", "Spring", "iOS"],
     summary:
       "I helped shape project semantics, database design, server setup, and iOS-ready React Native foundations.",
@@ -151,7 +152,7 @@ const projects = [
     id: "carbon",
     title: "AI Carbon Impact",
     type: "Personal",
-    image: "resources/images/ai-carbon-screenshot.png",
+    image: asset("ai-carbon-screenshot.png"),
     tags: ["JavaScript", "Storytelling", "Sustainability", "Interactive UI"],
     summary:
       "I created this project to make AI usage and carbon impact easier to understand through interactive storytelling.",
@@ -187,19 +188,19 @@ const horseStory = [
     title: "Horse mom energy",
     text:
       "This is a real part of who I am. It has made me more observant, patient, and attentive in the way I care, communicate, and learn.",
-    image: "resources/images/horse-with-you-2.jpeg",
+    image: asset("horse-with-you-2.jpeg"),
   },
   {
     title: "R+ and gentle guidance",
     text:
       "I am learning reward-based training with more focus on calm communication, trust, gentle guidance, and animal wellbeing.",
-    image: "resources/images/profile-horse.png",
+    image: asset("profile-horse.png"),
   },
   {
     title: "Basic medical knowledge",
     text:
       "I also have basic medical knowledge for horses and practical awareness around everyday health, handling, and supportive care.",
-    image: "resources/images/horse-medical.jpeg",
+    image: asset("horse-medical.jpeg"),
   },
 ];
 
@@ -309,7 +310,7 @@ function App() {
           <section className="hero-visual">
             <div className="portrait-card tilt-card">
               <img
-                src="resources/images/horse-with-you-1.jpeg"
+                src={asset("horse-with-you-1.jpeg")}
                 alt="Niharika with a horse"
               />
               <div className="portrait-note">
@@ -483,7 +484,7 @@ function App() {
           <div className="cert-grid">
             <div className="cert-image tilt-card">
               <img
-                src="resources/images/aws-cloud-practitioner-1.png"
+                src={asset("aws-cloud-practitioner-1.png")}
                 alt="AWS Certified Cloud Practitioner certificate"
               />
             </div>
@@ -553,7 +554,7 @@ function App() {
           rel="noreferrer"
         >
           <img
-            src="resources/images/buymeacoffee-badge.svg"
+            src={asset("buymeacoffee-badge.svg")}
             alt="Buy Me a Coffee badge"
           />
         </a>
