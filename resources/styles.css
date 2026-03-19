@@ -139,10 +139,12 @@ img {
 
 .eyebrow,
 .panel-label {
-  font-family: "Patrick Hand", cursive;
+  font-family: "DM Sans", sans-serif;
   color: var(--rose-deep);
-  letter-spacing: 0.06em;
-  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
   margin: 0 0 12px;
 }
 
@@ -170,7 +172,7 @@ img {
 .company-line {
   margin: 16px 0 0;
   color: var(--rose-deep);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .button {
@@ -266,12 +268,12 @@ img {
 }
 
 .tilt-card {
-  transform: rotate(-1.2deg);
-  transition: transform 200ms ease;
+  transform: rotate(-0.35deg);
+  transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
 .tilt-card:hover {
-  transform: rotate(0deg) translateY(-3px);
+  transform: rotate(0deg) translateY(-2px);
 }
 
 .content {
@@ -412,7 +414,6 @@ img {
   display: inline-flex;
   align-items: center;
   padding: 8px 14px;
-  background: rgba(185, 235, 216, 0.54);
   background: rgba(215, 199, 255, 0.52);
   color: var(--ink);
   margin-bottom: 12px;
@@ -453,8 +454,8 @@ img {
   border-radius: 24px;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background: rgba(255, 255, 255, 0.5);
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .project-image-wrap img {
@@ -554,7 +555,6 @@ img {
   margin-top: 18px;
   padding: 18px;
   border-radius: 22px;
-  background: linear-gradient(135deg, rgba(255, 184, 170, 0.25), rgba(185, 235, 216, 0.4));
   background: linear-gradient(135deg, rgba(168, 124, 255, 0.2), rgba(215, 199, 255, 0.45));
 }
 
@@ -709,8 +709,12 @@ img {
   display: grid;
   gap: 6px;
   padding: 18px 20px;
-  transition: transform 180ms ease, border-color 180ms ease;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
   text-align: left;
+}
+
+.social-card:hover {
+  background: rgba(255, 255, 255, 0.82);
 }
 
 .social-card.with-image {

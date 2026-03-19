@@ -26,10 +26,10 @@ const socialLinks = [
 ];
 
 const heroStats = [
-  { value: "6+", label: "years across mobile, backend, and IoT" },
+  { value: "6+", label: "years across mobile, backend, cloud, and IoT systems" },
   { value: "AWS", label: "Cloud Practitioner certified" },
   { value: "Databases", label: "comfortable from schema design to query thinking" },
-  { value: "End-to-end", label: "from APIs and chat clients to mobile UX" },
+  { value: "End-to-end", label: "from React Native UX to APIs, dashboards, and rule engines" },
 ];
 
 const timeline = [
@@ -63,7 +63,7 @@ const timeline = [
     place: "Fourier Technologies",
     city: "Pune",
     detail:
-      "Built depth across application development, backend services, AWS, IoT workflows, and end-to-end delivery.",
+      "Worked on testing and app validation alongside React Native redesign work shaped by customer feedback, code optimization for 50+ device connections, and early backend exposure across Node.js, Spring Boot, AWS SDKs, and AWS IoT Core while working exclusively for Nuro Tech.",
     type: "work",
   },
   {
@@ -72,7 +72,7 @@ const timeline = [
     place: "Nuro Technologies · Full-time",
     city: "Pune, Maharashtra, India",
     detail:
-      "Worked on connected-device systems, production cloud workflows, mobile features, and deployment-critical product behavior.",
+      "Took full-stack ownership across React Native apps, Node.js APIs, database design, Spring Boot monitoring and rule-engine support, cron-based device monitoring, React admin dashboards, observability, Python and pandas aggregation scripts, Firebase notifications, and hybrid SQL and NoSQL data workflows.",
     type: "work",
   },
   {
@@ -81,7 +81,7 @@ const timeline = [
     place: "Hexatic · Full-time",
     city: "Pune, Maharashtra, India",
     detail:
-      "Leads product engineering work with stronger ownership across implementation details, system behavior, and reliable feature delivery.",
+      "Leading product engineering in the agriculture and IoT domain with FarmX, redesigning field and customer-facing apps, improving engineering practices, managing a team of 6 to 7, working across BLE, NFC, Django, AWS ECS, deployment cost optimization, and client-facing issue resolution while also serving as the presiding officer for POSH.",
     type: "work",
   },
 ];
@@ -89,19 +89,19 @@ const timeline = [
 const techStacks = [
   {
     title: "App + Frontend",
-    items: ["React Native", "JavaScript", "TypeScript", "HTML", "CSS", "Bootstrap", "iOS setup"],
+    items: ["React Native", "React.js", "JavaScript", "TypeScript", "HTML", "CSS", "Bootstrap", "iOS setup"],
   },
   {
     title: "Backend",
-    items: ["Java", "Spring Boot", "Node.js", "REST APIs", "Schema design"],
+    items: ["Java", "Spring Boot", "Node.js", "Django", "REST APIs", "Schema design", "Cron jobs"],
   },
   {
     title: "Cloud + IoT",
-    items: ["AWS IoT Core", "EC2", "S3", "Lambda", "DynamoDB", "MQTT", "Device flows"],
+    items: ["AWS IoT Core", "AWS SDKs", "EC2", "ECS", "S3", "Lambda", "DynamoDB", "MQTT", "BLE", "NFC", "Device flows"],
   },
   {
     title: "Data + Messaging",
-    items: ["PostgreSQL", "MySQL", "Firebase", "DB schema design", "query planning", "XMPP", "Ejabberd", "chat client workflows"],
+    items: ["PostgreSQL", "MySQL", "Firebase", "Pandas", "DB schema design", "query planning", "XMPP", "Ejabberd", "chat client workflows", "Hybrid SQL + NoSQL systems"],
   },
   {
     title: "Testing + Tools",
@@ -117,15 +117,15 @@ const projects = [
     image: asset("britehome-article-cover.jpg"),
     tags: ["React Native", "AWS", "IoT", "Spring", "PostgreSQL"],
     summary:
-      "I build connected-home features across mobile, backend, automation, and device workflows.",
+      "Connected-home product work across mobile, backend, automation, monitoring, and cloud-backed device workflows.",
     bullets: [
-      "I work across app, server, and database layers instead of limiting myself to one tier.",
-      "I have integrated device ecosystems including Google SmartThings and Alexa capabilities.",
-      "I also wrote about integrating Google Smart Home APIs with IoT devices for BriteHome.",
-      "My work here included AWS services such as IoT Core, EC2, S3, Lambda, and DynamoDB.",
+      "Started from testing and application validation, then moved into redesigning the app based on customer feedback.",
+      "Optimized the codebase to handle more than 50 device connections while improving reliability in production behavior.",
+      "Worked across Node.js APIs, database design and optimization, and Spring Boot services for monitoring and rule-engine support.",
+      "Built cron-based device monitoring flows and worked deeply with AWS IoT Core, AWS SDKs, EC2, S3, Lambda, and DynamoDB.",
     ],
     insight:
-      "One of the coolest parts of this work is connecting real devices, cloud services, and user experience into something that feels seamless.",
+      "This work shaped how I think about connected products: the app, device behavior, backend logic, and cloud workflows all need to feel coherent to the user.",
     href: "https://britehome.tech/integrate-google-smart-home-api-with-iot-devices/",
     hrefLabel: "Read article",
   },
@@ -134,19 +134,50 @@ const projects = [
     title: "Deal Bazar",
     type: "Work",
     image: asset("thigma-profile.jpg"),
-    tags: ["React Native", "XMPP", "Ejabberd", "Spring", "iOS"],
+    tags: ["React Native", "XMPP", "Ejabberd", "Firebase", "AWS S3", "AWS ECS"],
     summary:
-      "I helped shape project semantics, database design, server setup, and iOS-ready React Native foundations.",
+      "Built a marketplace product from scratch with ownership across app design, backend systems, database design, chat, notifications, and deployment.",
     bullets: [
-      "I contributed to protocol and product-level decisions, not only ticket execution.",
-      "I worked on API and Ejabberd server setup while also supporting end-to-end app functionality.",
-      "A chat client workflow was part of the product setup, which added real-time messaging considerations to the build.",
-      "I handled iOS-side setup as part of getting the React Native experience production ready.",
+      "Played a key role in shaping the product direction and visual theme for Thigma, an app connecting artists and buyers securely.",
+      "Created the app, server, and database design from scratch instead of extending an existing platform.",
+      "Added a chat server using XMPP with Ejabberd, plus notification support through Firebase.",
+      "Used AWS S3 for media storage and retrieval and AWS ECS for deployment, while staying close to customer feedback through the build.",
     ],
     insight:
-      "What makes this project interesting is that it mixes product thinking, messaging flows, backend setup, and mobile delivery in one place.",
+      "The strongest part of this project was balancing product design decisions with backend and messaging infrastructure early enough to keep the experience clean.",
     href: "https://play.google.com/store/apps/details?id=co.dealbazar.test&hl=en_IN",
     hrefLabel: "View app",
+  },
+  {
+    id: "farmx",
+    title: "FarmX",
+    type: "Work",
+    tags: ["React Native", "BLE", "NFC", "Django", "AWS ECS", "Leadership"],
+    summary:
+      "Senior full-stack ownership across field operations, customer-facing apps, connected-device setup, and engineering process improvement.",
+    bullets: [
+      "Redesigned the field app and contributed heavily to the newer customer-facing product experience.",
+      "Worked on mobile flows that connect with devices over BLE and NFC for configuration and data collection.",
+      "Contributed on the Django server side and handled AWS ECS deployment and cost-optimization work.",
+      "Managed a team of 6 to 7 engineers while working closely with international clients during installation and issue-resolution cycles.",
+    ],
+    insight:
+      "This is where technical ownership and team leadership meet: shipping features, improving standards, and resolving operational issues without losing momentum.",
+  },
+  {
+    id: "siemens",
+    title: "Enlightened App",
+    type: "Work",
+    tags: ["React Native", "BLE", "Native Modules", "Tablet UX"],
+    summary:
+      "Product enhancement work for Siemens on a tablet-focused field app with bug fixes, new features, and native communication with BLE devices.",
+    bullets: [
+      "Resolved bugs and added requested features in an actively used React Native field application.",
+      "Worked on native-layer integration to improve communication with BLE devices.",
+      "Supported a tablet-first workflow where reliability and device communication mattered more than cosmetic changes.",
+    ],
+    insight:
+      "Field tooling has little tolerance for fragile behavior, which makes careful debugging and native integration work especially important.",
   },
   {
     id: "carbon",
@@ -187,28 +218,28 @@ const horseStory = [
   {
     title: "Horse mom energy",
     text:
-      "This is a real part of who I am. It has made me more observant, patient, and attentive in the way I care, communicate, and learn.",
+      "This is a real part of who I am. It has taught me to stay calm under pressure, stay observant, and respond with steadiness instead of urgency.",
     image: asset("horse-with-you-2.jpeg"),
   },
   {
     title: "R+ and gentle guidance",
     text:
-      "I am learning reward-based training with more focus on calm communication, trust, gentle guidance, and animal wellbeing.",
+      "I am learning reward-based training with more focus on calm communication, trust, gentle guidance, and animal wellbeing. It has also made me a gentler communicator in the way I work with both people and animals.",
     image: asset("profile-horse.png"),
   },
   {
     title: "Basic medical knowledge",
     text:
-      "I also have basic medical knowledge for horses and practical awareness around everyday health, handling, and supportive care.",
+      "I have learned basic first aid for horses during colic and injury situations, along with massage, relaxation techniques, and practical daily care that supports their wellbeing.",
     image: asset("horse-medical.jpeg"),
   },
 ];
 
 const signals = [
-  "I enjoy moving from product ideas into practical implementation without losing the bigger picture.",
-  "The strongest work usually happens where mobile apps, backend services, databases, and devices all need to agree with each other.",
-  "Debugging, automation, and production stabilization are part of the work I genuinely know how to sit with.",
-  "The projects I enjoy most are the ones that feel useful, thoughtful, and grounded in real life.",
+  "I move comfortably from customer feedback and product thinking into practical implementation across app, backend, and cloud layers.",
+  "My strongest work sits where mobile apps, backend services, databases, observability, and devices all need to agree with each other.",
+  "I have worked across testing, redesign, monitoring, automation, and production stabilization rather than staying limited to one part of delivery.",
+  "I care most about systems that are useful in the real world, especially when reliability matters more than surface polish.",
 ];
 
 function App() {
@@ -287,6 +318,13 @@ function App() {
             <div className="cta-row">
               <a className="button primary" href="mailto:argade.niharika@gmail.com">
                 Say hello
+              </a>
+              <a
+                className="button ghost"
+                href="/niharika/resources/resume/Niharika-Argade-Resume.docx"
+                download="Niharika-Argade-Resume.docx"
+              >
+                Download resume
               </a>
               <a className="button ghost" href="https://github.com/niharikaargade" target="_blank" rel="noreferrer">
                 View GitHub
@@ -382,7 +420,7 @@ function App() {
         <section id="projects" className="panel projects-panel">
           <div className="section-heading">
             <p className="panel-label">Project highlights</p>
-            <h2>What I have built across product, cloud, and mobile</h2>
+            <h2>Selected work across product, cloud, and connected systems</h2>
           </div>
 
           <div className="filter-row">
@@ -579,7 +617,7 @@ function App() {
       <footer id="contact" className="footer">
         <p>If you have a product to build, bugs to untangle, or cloud chaos to calm down, I’m only one email away.</p>
         <p>
-          Email: <a href="mailto:argade.niharika@gmail.com">argade.niharika@gmail.com</a>
+          <a href="mailto:argade.niharika@gmail.com">argade.niharika@gmail.com</a>
         </p>
         <a
           className="bmc-link"
