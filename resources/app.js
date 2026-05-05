@@ -1,5 +1,5 @@
 const { useMemo, useState } = React;
-const asset = (path) => `/niharika/resources/images/${path}`;
+const asset = (path) => `resources/images/${path}`;
 
 const socialLinks = [
   {
@@ -293,7 +293,7 @@ function App() {
               </a>
               <a
                 className="button ghost"
-                href="/niharika/resources/resume/Niharika-Argade-Resume.docx"
+                href="resources/resume/Niharika-Argade-Resume.docx"
                 download="Niharika-Argade-Resume.docx"
               >
                 Download resume
