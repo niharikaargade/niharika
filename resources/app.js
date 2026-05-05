@@ -1,4 +1,4 @@
-const { useEffect, useMemo, useState } = React;
+const { useMemo, useState } = React;
 const asset = (path) => `/niharika/resources/images/${path}`;
 
 const socialLinks = [
@@ -105,7 +105,7 @@ const techStacks = [
   },
   {
     title: "Testing + Tools",
-    items: ["Postman", "JUnit", "Mockito", "Xcode", "Android Studio", "VS Code", "IntelliJ"],
+    items: ["Postman", "JUnit", "Mockito", "Xcode", "Android Studio", "VS Code", "IntelliJ", "ADK", "Agentic AI applications"],
   },
 ];
 
@@ -245,18 +245,6 @@ const signals = [
 function App() {
   const [activeProject, setActiveProject] = useState(projects[0].id);
   const [projectFilter, setProjectFilter] = useState("All");
-  const [bubbles, setBubbles] = useState([]);
-
-  useEffect(() => {
-    const generated = Array.from({ length: 14 }, (_, index) => ({
-      id: index,
-      left: `${4 + index * 7}%`,
-      top: `${6 + (index % 5) * 16}%`,
-      delay: `${index * 0.35}s`,
-      size: `${32 + (index % 5) * 18}px`,
-    }));
-    setBubbles(generated);
-  }, []);
 
   const filters = useMemo(
     () => ["All", "Work", "Personal"],
@@ -279,22 +267,6 @@ function App() {
 
   return (
     <div className="page-shell">
-      <div className="floating-layer" aria-hidden="true">
-        {bubbles.map((bubble) => (
-          <span
-            key={bubble.id}
-            className="bubble"
-            style={{
-              left: bubble.left,
-              top: bubble.top,
-              animationDelay: bubble.delay,
-              width: bubble.size,
-              height: bubble.size,
-            }}
-          />
-        ))}
-      </div>
-
       <header className="hero">
         <nav className="topbar">
           <div className="topbar-links">
@@ -315,7 +287,7 @@ function App() {
               Full stack work, connected-device systems, thoughtful database design, and a very real soft spot for horses all live here together.
             </p>
 
-            <div className="cta-row">
+            <div className="cta-row compact-actions">
               <a className="button primary" href="mailto:argade.niharika@gmail.com">
                 Say hello
               </a>
@@ -335,7 +307,7 @@ function App() {
               A mix of product engineering, systems thinking, and real-world problem solving.
             </p>
 
-            <div className="stat-grid">
+            <div className="stat-grid hero-metrics">
               {heroStats.map((stat) => (
                 <article key={stat.label} className="stat-card">
                   <strong>{stat.value}</strong>
@@ -395,13 +367,13 @@ function App() {
           </div>
         </section>
 
-        <section className="panel stack-panel">
+        <section className="panel stack-panel compact-panel">
           <div className="section-heading">
             <p className="panel-label">Tech stack</p>
             <h2>Technologies I have worked with</h2>
           </div>
 
-          <div className="stack-grid">
+          <div className="stack-grid stack-grid-compact">
             {techStacks.map((group) => (
               <article key={group.title} className="stack-card">
                 <h3>{group.title}</h3>
