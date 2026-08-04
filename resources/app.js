@@ -22,6 +22,8 @@ const socialLinks = [
 ];
 
 const resumeHref = "resources/resume/Niharika-Argade-Resume.docx";
+const youtubeHref = "https://youtu.be/j0Z9Up9zviU";
+const youtubeThumbnail = "https://i.ytimg.com/vi/j0Z9Up9zviU/hqdefault.jpg";
 
 const featuredWriting = {
   title: "Google Smart Home + IoT devices",
@@ -108,7 +110,6 @@ const projects = [
   {
     id: "britehome",
     title: "BriteHome",
-    image: asset("britehome-article-cover.jpg"),
     summary:
       "Connected-home product work across mobile, backend, automation, monitoring, and cloud-backed device workflows.",
     href: "https://play.google.com/store/apps/details?id=tech.nuro.brite&pcampaignid=web_share",
@@ -116,7 +117,6 @@ const projects = [
   {
     id: "dealbazar",
     title: "Deal Bazar",
-    image: asset("thigma-profile.jpg"),
     summary:
       "Built a marketplace product from scratch with ownership across app design, backend systems, database design, chat, notifications, and deployment.",
     href: "https://play.google.com/store/apps/details?id=co.dealbazar.test&hl=en_IN",
@@ -136,7 +136,6 @@ const projects = [
   {
     id: "carbon",
     title: "AI Carbon Impact",
-    image: asset("ai-carbon-scene.svg"),
     summary:
       "I created this project to make AI usage and carbon impact easier to understand through a clear visual experience.",
     href: "https://niharikaargade.github.io/ai-carbon-impact/",
@@ -145,16 +144,22 @@ const projects = [
 
 const horseStory = [
   {
-    title: "Calm under pressure",
+    title: "Gentle guidance",
     image: asset("horse-with-you-2.jpeg"),
   },
   {
-    title: "Gentle guidance",
+    title: "R+ training",
     image: asset("profile-horse.png"),
   },
   {
     title: "Daily care",
     image: asset("horse-medical.jpeg"),
+  },
+  {
+    title: "Watch on YouTube",
+    image: youtubeThumbnail,
+    href: youtubeHref,
+    badge: "YouTube",
   },
 ];
 
@@ -261,6 +266,73 @@ function HighlightCard({ item, duplicate = false }) {
   }
 
   return <CertificateCard certificate={item} duplicate={duplicate} />;
+}
+
+function WorkCard({ project, duplicate = false }) {
+  const className = `work-card project-showcase ${duplicate ? "is-duplicate" : ""}`;
+  const content = (
+    <div className="project-copy work-card-copy">
+      <div className="project-title-row">
+        <h3>{project.title}</h3>
+        {project.href ? (
+          <span className="project-link-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M14 5h5v5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M10 14 19 5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M19 13v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        ) : null}
+      </div>
+      <p>{project.summary}</p>
+    </div>
+  );
+
+  if (duplicate) {
+    return (
+      <div className={className} aria-hidden="true">
+        {content}
+      </div>
+    );
+  }
+
+  if (!project.href) {
+    return <article className={className}>{content}</article>;
+  }
+
+  return (
+    <a
+      className={className}
+      href={project.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Open ${project.title}`}
+      title={`Open ${project.title}`}
+    >
+      {content}
+    </a>
+  );
 }
 
 function App() {
@@ -395,65 +467,19 @@ function App() {
             <h2>Work</h2>
           </div>
 
-          <div className="projects-grid projects-grid-editorial project-zigzag-list">
-            {projects.map((project) => (
-              <article key={project.id} className="project-showcase tilt-card">
-                <div className="project-showcase-stage">
-                  {project.image ? (
-                    <div className="project-image-wrap">
-                      <img src={project.image} alt={project.title} />
-                    </div>
-                  ) : (
-                    <div className="project-image-wrap project-image-wrap empty" aria-hidden="true">
-                      <div className="empty-project-art"></div>
-                    </div>
-                  )}
-                  <div className="project-copy">
-                    <div className="project-title-row">
-                      <h3>{project.title}</h3>
-                      {project.href ? (
-                        <a
-                          className="project-link-icon"
-                          href={project.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-label={`Open ${project.title}`}
-                          title={`Open ${project.title}`}
-                        >
-                          <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                              d="M14 5h5v5"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M10 14 19 5"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M19 13v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </a>
-                      ) : null}
-                    </div>
-                    <p>{project.summary}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div className="work-marquee">
+            <div className="work-track">
+              {projects.map((project) => (
+                <WorkCard key={project.id} project={project} />
+              ))}
+              {projects.map((project, index) => (
+                <WorkCard
+                  key={`${project.id}-duplicate-${index}`}
+                  project={project}
+                  duplicate={true}
+                />
+              ))}
+            </div>
           </div>
         </section>
 
@@ -463,14 +489,39 @@ function App() {
           </div>
 
           <div className="horse-copy horse-gallery-grid">
-            {horseStory.map((item) => (
-              <article key={item.title} className="horse-note">
-                {item.image ? <img src={item.image} alt={item.title} /> : null}
-                <div className="horse-note-caption">
-                  <h3>{item.title}</h3>
-                </div>
-              </article>
-            ))}
+            {horseStory.map((item) => {
+              const content = (
+                <>
+                  {item.image ? <img src={item.image} alt={item.title} /> : null}
+                  <div className="horse-note-caption">
+                    {item.badge ? <span className="horse-note-badge">{item.badge}</span> : null}
+                    <h3>{item.title}</h3>
+                  </div>
+                </>
+              );
+
+              if (item.href) {
+                return (
+                  <a
+                    key={item.title}
+                    className="horse-note horse-note-link youtube-thumb-card"
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Open ${item.title}`}
+                    title={item.title}
+                  >
+                    {content}
+                  </a>
+                );
+              }
+
+              return (
+                <article key={item.title} className="horse-note">
+                  {content}
+                </article>
+              );
+            })}
           </div>
         </section>
 
@@ -501,7 +552,7 @@ function App() {
           <div className="contact-layout">
             <a
               className="watch-loop contact-portrait"
-              href="https://youtu.be/j0Z9Up9zviU"
+              href={youtubeHref}
               target="_blank"
               rel="noreferrer"
               aria-label="Open Niharika YouTube video"
@@ -518,7 +569,7 @@ function App() {
             </a>
 
             <div className="contact-copy-block">
-              <h2>Contact Me</h2>
+              <h2>Get in touch</h2>
               <p className="contact-copy-text">
                 Products, bugs, and cloud work. One email away.
               </p>
