@@ -1942,9 +1942,10 @@ img {
 
 .contact-layout {
   display: grid;
-  grid-template-columns: minmax(0, 264px) minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: minmax(0, 320px) minmax(0, 420px);
+  gap: 18px;
   align-items: center;
+  justify-content: center;
   min-width: 0;
 }
 
@@ -1961,9 +1962,9 @@ img {
 }
 
 .contact-portrait {
-  width: min(100%, 236px);
-  margin: 0 0 0 20px;
-  justify-self: start;
+  width: min(100%, 320px);
+  margin: 0;
+  justify-self: end;
 }
 
 .watch-loop video {
@@ -2018,6 +2019,7 @@ img {
   align-items: start;
   justify-items: center;
   width: 100%;
+  max-width: 42rem;
 }
 
 .contact-copy-block h2 {
@@ -2115,11 +2117,6 @@ img {
 
   .watch-loop {
     width: min(100%, 360px);
-  }
-
-  .contact-portrait {
-    width: min(100%, 236px);
-    margin-left: 20px;
   }
 }
 
@@ -2268,10 +2265,6 @@ img {
   .watch-loop {
     width: min(100%, 360px);
   }
-
-  .contact-portrait {
-    width: min(100%, 236px);
-  }
 }
 
 @media (max-width: 720px) {
@@ -2329,11 +2322,11 @@ img {
   .contact-layout {
     grid-template-columns: 1fr;
     gap: 14px;
+    justify-items: center;
   }
 
   .contact-portrait {
-    width: min(100%, 320px);
-    margin-left: 0;
+    justify-self: center;
   }
 
   .contact-actions,
