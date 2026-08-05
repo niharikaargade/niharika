@@ -159,7 +159,6 @@ const horseStory = [
     title: "Watch on YouTube",
     image: youtubeThumbnail,
     href: youtubeHref,
-    badge: "YouTube",
   },
 ];
 
@@ -350,6 +349,82 @@ function App() {
     return () => window.clearTimeout(animationTimer);
   }, [portraitAnimating]);
 
+  useEffect(() => {
+    const sections = document.querySelectorAll(".screen-section");
+    if (!sections.length || !("IntersectionObserver" in window)) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.2 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const sections = [...document.querySelectorAll(".screen-section")];
+    if (sections.length < 2) {
+      return;
+    }
+
+    let wheelLocked = false;
+    let unlockTimer;
+    const handleWheel = (event) => {
+      if (
+        Math.abs(event.deltaY) < 8 ||
+        event.target.closest(".work-marquee, .certification-marquee, .project-rail")
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      if (wheelLocked) {
+        return;
+      }
+
+      const viewportCenter = window.innerHeight / 2;
+      const currentIndex = sections.reduce((closestIndex, section, index) => {
+        const closest = sections[closestIndex].getBoundingClientRect();
+        const currentDistance = Math.abs(
+          closest.top + closest.height / 2 - viewportCenter,
+        );
+        const candidate = section.getBoundingClientRect();
+        const candidateDistance = Math.abs(
+          candidate.top + candidate.height / 2 - viewportCenter,
+        );
+        return candidateDistance < currentDistance ? index : closestIndex;
+      }, 0);
+      const direction = event.deltaY > 0 ? 1 : -1;
+      const nextIndex = Math.max(
+        0,
+        Math.min(sections.length - 1, currentIndex + direction),
+      );
+
+      if (nextIndex === currentIndex) {
+        return;
+      }
+
+      wheelLocked = true;
+      sections[nextIndex].scrollIntoView({ behavior: "smooth", block: "start" });
+      unlockTimer = window.setTimeout(() => {
+        wheelLocked = false;
+      }, 760);
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.clearTimeout(unlockTimer);
+    };
+  }, []);
+
   const triggerPortraitAnimation = () => {
     setPortraitAnimating(false);
     window.requestAnimationFrame(() => {
@@ -377,7 +452,7 @@ function App() {
         <span className="floral floral-bottom-right"></span>
         <span className="floral floral-vine-right"></span>
       </div>
-      <header className="hero">
+      <header className="hero screen-section screen-hero is-visible">
         <nav className="topbar">
           <div className="topbar-links">
             <a href="#journey">Journey</a>
@@ -422,47 +497,51 @@ function App() {
       </header>
 
       <main className="content">
-        <section id="journey" className="panel journey-panel compact-panel">
-          <div className="section-heading">
-            <h2>Journey</h2>
-          </div>
+        <section id="journey" className="screen-section screen-journey">
+          <section className="panel journey-panel compact-panel">
+            <div className="section-heading">
+              <h2>Journey</h2>
+            </div>
 
-          <div className="timeline-cards timeline-cards-editorial work-bubble-grid">
-            {workTimeline.map((entry) => (
-              <article key={`${entry.year}-${entry.title}`} className="timeline-card timeline-card-work work-bubble-card">
-                <span className="timeline-year">{entry.year}</span>
-                <h3>{entry.title}</h3>
-                <p className="timeline-place">{entry.place}</p>
-              </article>
-            ))}
-          </div>
+            <div className="timeline-cards timeline-cards-editorial work-bubble-grid">
+              {workTimeline.map((entry) => (
+                <article key={`${entry.year}-${entry.title}`} className="timeline-card timeline-card-work work-bubble-card">
+                  <span className="timeline-year">{entry.year}</span>
+                  <h3>{entry.title}</h3>
+                  <p className="timeline-place">{entry.place}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="panel stack-panel compact-panel">
+            <div className="section-heading">
+              <h2>Core stack</h2>
+            </div>
+
+            <div className="stack-lines stack-group-grid">
+              {techGroups.map((group) => (
+                <article key={group.label} className="stack-line stack-group-card">
+                  <span className="stack-group-label">{group.label}</span>
+                  <div className="stack-track">
+                    {group.items.map((item) => (
+                      <span
+                        key={`${group.label}-${item}`}
+                        className="stack-bubble"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
         </section>
 
-        <section className="panel stack-panel compact-panel">
-          <div className="section-heading">
-            <h2>Core stack</h2>
-          </div>
-
-          <div className="stack-lines stack-group-grid">
-            {techGroups.map((group) => (
-              <article key={group.label} className="stack-line stack-group-card">
-                <span className="stack-group-label">{group.label}</span>
-                <div className="stack-track">
-                  {group.items.map((item) => (
-                    <span
-                      key={`${group.label}-${item}`}
-                      className="stack-bubble"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="work" className="panel projects-panel editorial-projects-panel">
+        <section id="work" className="screen-section screen-work">
+        <span id="horse-life" className="screen-anchor" aria-hidden="true"></span>
+        <section className="panel projects-panel editorial-projects-panel">
           <div className="section-heading">
             <h2>Work</h2>
           </div>
@@ -483,7 +562,7 @@ function App() {
           </div>
         </section>
 
-        <section id="horse-life" className="panel horse-panel compact-panel">
+        <section className="panel horse-panel compact-panel">
           <div className="section-heading">
             <h2>Horse life</h2>
           </div>
@@ -524,8 +603,11 @@ function App() {
             })}
           </div>
         </section>
+        </section>
 
-        <section id="highlights" className="panel certification-panel compact-panel highlights-panel">
+        <section id="highlights" className="screen-section screen-contact">
+        <span id="contact" className="screen-anchor" aria-hidden="true"></span>
+        <section className="panel certification-panel compact-panel highlights-panel">
           <div className="section-heading">
             <h2>Article & Certifications</h2>
           </div>
@@ -548,7 +630,7 @@ function App() {
           </div>
         </section>
 
-        <section id="contact" className="panel watch-panel contact-panel compact-panel">
+        <section className="panel watch-panel contact-panel compact-panel">
           <div className="contact-layout">
             <a
               className="watch-loop contact-portrait"
@@ -613,6 +695,7 @@ function App() {
             Copyright © 2026 Niharika Argade. All rights reserved.
           </p>
         </footer>
+        </section>
       </main>
     </div>
   );
