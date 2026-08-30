@@ -336,6 +336,7 @@ function WorkCard({ project, duplicate = false }) {
 
 function App() {
   const [portraitAnimating, setPortraitAnimating] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!portraitAnimating) {
@@ -425,6 +426,21 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return;
+    }
+
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [isMobileMenuOpen]);
+
   const triggerPortraitAnimation = () => {
     setPortraitAnimating(false);
     window.requestAnimationFrame(() => {
@@ -462,7 +478,53 @@ function App() {
             <a href={resumeHref} target="_blank" rel="noreferrer">Resume</a>
             <a href="#contact">Contact</a>
           </div>
+          <button
+            type="button"
+            className="mobile-menu-button"
+            aria-controls="mobile-navigation-drawer"
+            aria-expanded={isMobileMenuOpen}
+            onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+          >
+            <span aria-hidden="true">☰</span>
+            <span>Menu</span>
+          </button>
         </nav>
+
+        {isMobileMenuOpen ? (
+          <div className="mobile-drawer-wrap">
+            <button
+              type="button"
+              className="mobile-drawer-backdrop"
+              aria-label="Close navigation menu"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <aside
+              id="mobile-navigation-drawer"
+              className="mobile-navigation-drawer"
+              aria-label="Mobile navigation"
+            >
+              <div className="mobile-drawer-header">
+                <span>Niharika Argade</span>
+                <button
+                  type="button"
+                  className="mobile-drawer-close"
+                  aria-label="Close navigation menu"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  ×
+                </button>
+              </div>
+              <div className="mobile-drawer-links">
+                <a href="#journey" onClick={() => setIsMobileMenuOpen(false)}>Journey</a>
+                <a href="#work" onClick={() => setIsMobileMenuOpen(false)}>Work</a>
+                <a href="#horse-life" onClick={() => setIsMobileMenuOpen(false)}>Horse Life</a>
+                <a href="#highlights" onClick={() => setIsMobileMenuOpen(false)}>Article & Certifications</a>
+                <a href={resumeHref} target="_blank" rel="noreferrer" onClick={() => setIsMobileMenuOpen(false)}>Resume</a>
+                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</a>
+              </div>
+            </aside>
+          </div>
+        ) : null}
 
         <div className="hero-grid editorial-hero">
           <section className="hero-copy hero-copy-editorial">
