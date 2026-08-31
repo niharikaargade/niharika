@@ -7,12 +7,27 @@ const siteUrl = "https://niharikaargade.github.io/niharika/";
 test("publishes full-stack developer metadata for search engines", () => {
   const html = readFileSync("index.html", "utf8");
 
-  assert.match(html, /<title>Niharika Argade \| Senior Full Stack Developer<\/title>/);
+  assert.match(html, /<title>Niharika Argade \| AI & Cloud Full Stack Developer<\/title>/);
   assert.match(html, /name="description"[\s\S]*Senior Full Stack Developer/);
   assert.match(html, /"jobTitle": "Senior Full Stack Developer"/);
   assert.match(html, /"React Native"/);
   assert.match(html, /"Spring Boot"/);
   assert.match(html, /"AWS"/);
+  for (const term of [
+    "AI",
+    "Agentic AI",
+    "Python",
+    "Django",
+    "Azure",
+    "Google Cloud",
+    "Data Analysis",
+    "Backend Development",
+    "Product Engineering",
+    "IoT",
+    "PostgreSQL",
+  ]) {
+    assert.match(html, new RegExp(term));
+  }
 });
 
 test("keeps the portfolio's original visible hero heading", () => {
