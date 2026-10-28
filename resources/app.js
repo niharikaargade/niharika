@@ -370,63 +370,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const sections = [...document.querySelectorAll(".screen-section")];
-    if (sections.length < 2) {
-      return;
-    }
-
-    let wheelLocked = false;
-    let unlockTimer;
-    const handleWheel = (event) => {
-      if (
-        Math.abs(event.deltaY) < 8 ||
-        event.target.closest(".work-marquee, .certification-marquee, .project-rail")
-      ) {
-        return;
-      }
-
-      event.preventDefault();
-      if (wheelLocked) {
-        return;
-      }
-
-      const viewportCenter = window.innerHeight / 2;
-      const currentIndex = sections.reduce((closestIndex, section, index) => {
-        const closest = sections[closestIndex].getBoundingClientRect();
-        const currentDistance = Math.abs(
-          closest.top + closest.height / 2 - viewportCenter,
-        );
-        const candidate = section.getBoundingClientRect();
-        const candidateDistance = Math.abs(
-          candidate.top + candidate.height / 2 - viewportCenter,
-        );
-        return candidateDistance < currentDistance ? index : closestIndex;
-      }, 0);
-      const direction = event.deltaY > 0 ? 1 : -1;
-      const nextIndex = Math.max(
-        0,
-        Math.min(sections.length - 1, currentIndex + direction),
-      );
-
-      if (nextIndex === currentIndex) {
-        return;
-      }
-
-      wheelLocked = true;
-      sections[nextIndex].scrollIntoView({ behavior: "smooth", block: "start" });
-      unlockTimer = window.setTimeout(() => {
-        wheelLocked = false;
-      }, 760);
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.clearTimeout(unlockTimer);
-    };
-  }, []);
-
-  useEffect(() => {
     if (!isMobileMenuOpen) {
       return;
     }

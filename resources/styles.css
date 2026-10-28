@@ -28,7 +28,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
 }
 
 body {
@@ -348,8 +347,6 @@ img {
   display: grid;
   align-content: center;
   gap: 22px;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   opacity: 0;
   transform: translateY(24px);
   transition:
@@ -2345,14 +2342,8 @@ h6,
 }
 
 @media (max-width: 720px) {
-  html {
-    scroll-snap-type: y mandatory;
-  }
-
   .screen-section {
     min-height: auto;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
   }
 
   .screen-journey,
