@@ -87,6 +87,11 @@ const timeline = [
 
 const workTimeline = [...timeline].reverse();
 
+const techIcons = {
+  "React.js": "react", JavaScript: "javascript", TypeScript: "typescript", HTML: "html5", CSS: "css3",
+  "Spring Boot": "spring", "Node.js": "nodejs", Django: "simple/django", PostgreSQL: "postgresql", MySQL: "mysql", "AWS Cloud": "amazonwebservices", "Google Cloud": "googlecloud", Firebase: "firebase", Pandas: "pandas", "ChatGPT": "simple/openai", Anthropic: "simple/anthropic", BLE: "simple/bluetooth",
+};
+
 const techGroups = [
   {
     label: "Frontend",
@@ -102,7 +107,7 @@ const techGroups = [
   },
   {
     label: "Devices & AI",
-    items: ["BLE", "NFC", "MQTT", "Agentic AI applications"],
+    items: ["BLE", "NFC", "MQTT", "ChatGPT", "Anthropic"],
   },
 ];
 
@@ -339,6 +344,111 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    if (!window.THREE) return;
+    const THREE = window.THREE;
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.domElement.className = "bubble-canvas";
+    renderer.domElement.setAttribute("aria-hidden", "true");
+    document.querySelector(".page-shell")?.prepend(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-innerWidth / 2, innerWidth / 2, innerHeight / 2, -innerHeight / 2, 1, 100);
+    camera.position.z = 50;
+    const material = new THREE.ShaderMaterial({ transparent: true, depthWrite: false,
+      vertexShader: `varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+      fragmentShader: `varying vec2 vUv; void main(){vec2 p=vUv-.5;float r=length(p)*2.;if(r>1.)discard;float rim=smoothstep(.72,.98,r);float sheen=pow(max(0.,dot(normalize(vec3(p*1.3,sqrt(max(0.,1.-r*r)))),normalize(vec3(-.4,.5,1.)))),5.);float hue=.5+.5*sin(atan(p.y,p.x)*2.+r*8.);vec3 iridescence=mix(vec3(.55,.75,1.),vec3(1.,.62,.88),hue);float alpha=.12+rim*.26+sheen*.32;gl_FragColor=vec4(mix(iridescence,vec3(1.),sheen*.7),alpha);}` });
+    const bubbles = [];
+    const fizz = [];
+    const splashes = [];
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    const limit = 20;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let lastFizz = 0;
+    const spawn = (count, y = -innerHeight / 2 - 20) => {
+      for (let i = 0; i < count; i++) {
+        if (bubbles.length >= limit) {
+          const oldest = bubbles.shift();
+          scene.remove(oldest.mesh); oldest.mesh.geometry.dispose();
+        }
+        const radius = Math.random() < .35 ? 76 + Math.random() * 34 : 30 + Math.random() * 38;
+        const mesh = new THREE.Mesh(new THREE.CircleGeometry(radius, 32), material);
+        const x = (Math.random() - .5) * Math.max(0, innerWidth - radius * 2);
+        const bubbleY = reduced ? (Math.random() - .5) * Math.max(0, innerHeight - radius * 2) : y < -innerHeight / 2 ? y - Math.random() * 70 : (Math.random() - .5) * Math.max(0, innerHeight - radius * 2);
+        mesh.position.set(x, bubbleY, Math.random() < .18 ? 2 : 0);
+        scene.add(mesh);
+        bubbles.push({ mesh, radius, vx: (Math.random() - .5) * 1.2, vy: (Math.random() - .5) * 1.2 });
+      }
+    };
+    spawn(limit, 0);
+    const onScroll = () => {
+      if (reduced || performance.now() - lastFizz < 180) return;
+      lastFizz = performance.now();
+      if (bubbles.length < limit) spawn(limit - bubbles.length, -innerHeight / 2 - 20);
+      for (let i = 0; i < 12 && fizz.length < 120; i++) {
+        const radius = 3 + Math.random() * 6;
+        const mesh = new THREE.Mesh(new THREE.CircleGeometry(radius, 16), material);
+        mesh.position.set((Math.random() - .5) * innerWidth, -innerHeight / 2 - Math.random() * 90, 1.5);
+        scene.add(mesh); fizz.push({ mesh, radius, speed: 1 + Math.random() * 2 });
+      }
+    };
+    const burstBubble = (event) => {
+      pointer.set(event.clientX / innerWidth * 2 - 1, -(event.clientY / innerHeight) * 2 + 1);
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObjects(bubbles.map(({ mesh }) => mesh))[0];
+      if (!hit) return;
+      const index = bubbles.findIndex(({ mesh }) => mesh === hit.object);
+      const [bubble] = bubbles.splice(index, 1);
+      const center = bubble.mesh.position;
+      scene.remove(bubble.mesh); bubble.mesh.geometry.dispose();
+      for (let i = 0; i < 9; i++) {
+        const drop = new THREE.Mesh(new THREE.CircleGeometry(3 + Math.random() * 4, 12), material);
+        drop.position.copy(center); scene.add(drop);
+        splashes.push({ mesh: drop, vx: (Math.random() - .5) * 5, vy: (Math.random() - .5) * 5 - 1, life: 45 });
+      }
+    };
+    const resize = () => {
+      camera.left = -innerWidth / 2; camera.right = innerWidth / 2; camera.top = innerHeight / 2; camera.bottom = -innerHeight / 2; camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    };
+    let frame;
+    const animate = () => {
+      if (document.hidden) { frame = requestAnimationFrame(animate); return; }
+      bubbles.forEach((bubble) => {
+        if (reduced) return;
+        bubble.mesh.position.x += bubble.vx; bubble.mesh.position.y += bubble.vy;
+        const xEdge = innerWidth / 2 - bubble.radius, yEdge = innerHeight / 2 - bubble.radius;
+        if (Math.abs(bubble.mesh.position.x) > xEdge) { bubble.mesh.position.x = Math.sign(bubble.mesh.position.x) * xEdge; bubble.vx *= -1; }
+        if (Math.abs(bubble.mesh.position.y) > yEdge) { bubble.mesh.position.y = Math.sign(bubble.mesh.position.y) * yEdge; bubble.vy *= -1; }
+      });
+      fizz.forEach((bubble) => { bubble.mesh.position.y += bubble.speed; });
+      for (let i = fizz.length - 1; i >= 0; i--) if (fizz[i].mesh.position.y > innerHeight / 2 + fizz[i].radius) { scene.remove(fizz[i].mesh); fizz[i].mesh.geometry.dispose(); fizz.splice(i, 1); }
+      for (let i = 0; i < bubbles.length; i++) for (let j = i + 1; j < bubbles.length; j++) {
+        const a = bubbles[i], b = bubbles[j];
+        const dx = b.mesh.position.x - a.mesh.position.x, dy = b.mesh.position.y - a.mesh.position.y;
+        if (dx * (b.vx - a.vx) + dy * (b.vy - a.vy) >= 0 || a.mesh.position.distanceTo(b.mesh.position) >= a.radius + b.radius) continue;
+        for (const bubble of [a, b]) {
+          scene.remove(bubble.mesh); bubble.mesh.geometry.dispose();
+          for (let n = 0; n < 10; n++) {
+            const drop = new THREE.Mesh(new THREE.CircleGeometry(4 + Math.random() * 5, 12), material);
+            drop.position.copy(bubble.mesh.position); scene.add(drop);
+            splashes.push({ mesh: drop, vx: (Math.random() - .5) * 7, vy: (Math.random() - .5) * 7, life: 42 });
+          }
+        }
+        bubbles.splice(j, 1); bubbles.splice(i, 1); i--; break;
+      }
+      splashes.forEach((drop) => { drop.mesh.position.x += drop.vx; drop.mesh.position.y += drop.vy; drop.vy -= .12; drop.life--; drop.mesh.material = material; drop.mesh.scale.setScalar(Math.max(0, drop.life / 45)); });
+      for (let i = splashes.length - 1; i >= 0; i--) if (splashes[i].life <= 0) { scene.remove(splashes[i].mesh); splashes[i].mesh.geometry.dispose(); splashes.splice(i, 1); }
+      renderer.render(scene, camera);
+      if (!reduced) frame = requestAnimationFrame(animate);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", resize); window.addEventListener("click", burstBubble); animate();
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", resize); window.removeEventListener("click", burstBubble); splashes.forEach(({ mesh }) => mesh.geometry.dispose()); fizz.forEach(({ mesh }) => mesh.geometry.dispose()); bubbles.forEach(({ mesh }) => mesh.geometry.dispose()); material.dispose(); renderer.dispose(); renderer.domElement.remove(); };
+  }, []);
+
+  useEffect(() => {
     if (!portraitAnimating) {
       return;
     }
@@ -509,12 +619,14 @@ function App() {
             </div>
 
             <div className="timeline-cards timeline-cards-editorial work-bubble-grid">
-              {workTimeline.map((entry) => (
-                <article key={`${entry.year}-${entry.title}`} className="timeline-card timeline-card-work work-bubble-card">
+              {[...workTimeline].reverse().map((entry) => (
+                <div key={`${entry.year}-${entry.title}`} className="journey-milestone">
+                  <article className="timeline-card timeline-card-work work-bubble-card">
+                    <h3>{entry.title}</h3>
+                    <p className="timeline-place">{entry.place}</p>
+                  </article>
                   <span className="timeline-year">{entry.year}</span>
-                  <h3>{entry.title}</h3>
-                  <p className="timeline-place">{entry.place}</p>
-                </article>
+                </div>
               ))}
             </div>
           </section>
@@ -524,21 +636,16 @@ function App() {
               <h2>Core stack</h2>
             </div>
 
-            <div className="stack-lines stack-group-grid">
-              {techGroups.map((group) => (
-                <article key={group.label} className="stack-line stack-group-card">
-                  <span className="stack-group-label">{group.label}</span>
-                  <div className="stack-track">
-                    {group.items.map((item) => (
-                      <span
-                        key={`${group.label}-${item}`}
-                        className="stack-bubble"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </article>
+            <div className="stack-orbit" aria-label="Core technology icon clusters">
+              {[techGroups[2], techGroups[0], techGroups[3], techGroups[1]].map((group) => (
+                <div className="stack-orbit-cluster" key={group.label}>
+                  <span className="stack-orbit-category">{group.label}</span>
+                  {group.items.filter((item) => techIcons[item]).map((item) => (
+                    <span className="stack-orbit-icon" key={item} title={item}>
+                      <img src={techIcons[item].startsWith("simple/") ? `https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/${techIcons[item].slice(7)}.svg` : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${techIcons[item]}/${techIcons[item].split("/").at(-1)}-original.svg`} alt={item} loading="lazy" />
+                    </span>
+                  ))}
+                </div>
               ))}
             </div>
           </section>
@@ -576,6 +683,7 @@ function App() {
             {horseStory.map((item) => {
               const content = (
                 <>
+                  <span className="polaroid-clip" aria-hidden="true" />
                   {item.image ? <img src={item.image} alt={item.title} /> : null}
                   <div className="horse-note-caption">
                     {item.badge ? <span className="horse-note-badge">{item.badge}</span> : null}
