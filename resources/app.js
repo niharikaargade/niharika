@@ -19,6 +19,10 @@ const socialLinks = [
     label: "YouTube",
     href: "https://youtu.be/j0Z9Up9zviU",
   },
+  {
+    label: "Substack",
+    href: "https://niharika671984.substack.com/?r=57v5z4&utm_campaign=pub-share-checklist",
+  },
 ];
 
 const resumeHref = "resources/resume/Niharika-Argade-Resume.docx";
@@ -192,6 +196,14 @@ function SocialIcon({ label }) {
     );
   }
 
+  if (label === "Substack") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M22.539 8.242H1.46V5.406h21.08zm0 2.852H1.46V24L12 18.176 22.54 24zM22.539 0H1.46v2.836h21.08z" fill="currentColor" />
+      </svg>
+    );
+  }
+
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M23 7.2a2.95 2.95 0 0 0-2.08-2.09C19.08 4.6 12 4.6 12 4.6s-7.08 0-8.92.5A2.95 2.95 0 0 0 1 7.2a30.6 30.6 0 0 0-.5 5.7A30.6 30.6 0 0 0 1 18.6a2.95 2.95 0 0 0 2.08 2.09c1.84.5 8.92.5 8.92.5s7.08 0 8.92-.5A2.95 2.95 0 0 0 23 18.6a30.6 30.6 0 0 0 .5-5.7 30.6 30.6 0 0 0-.5-5.7ZM9.75 16.4V9.4l6.1 3.5-6.1 3.5Z" fill="currentColor" />
@@ -199,26 +211,18 @@ function SocialIcon({ label }) {
   );
 }
 
-function CertificateCard({ certificate, duplicate = false }) {
-  const cardClassName = `certification-link ${certificate.featured ? "featured" : ""} ${duplicate ? "is-duplicate" : ""}`;
+function CertificateCard({ certificate }) {
+  const cardClassName = `certification-link ${certificate.featured ? "featured" : ""}`;
   const content = (
     <>
       <div className="certification-preview">
-        <img src={certificate.preview} alt={duplicate ? "" : certificate.alt} />
+        <img src={certificate.preview} alt={certificate.alt} />
       </div>
       <div className="certification-copy">
         <strong>{certificate.title}</strong>
       </div>
     </>
   );
-
-  if (duplicate) {
-    return (
-      <div className={cardClassName} aria-hidden="true">
-        {content}
-      </div>
-    );
-  }
 
   return (
     <a
@@ -233,9 +237,9 @@ function CertificateCard({ certificate, duplicate = false }) {
   );
 }
 
-function HighlightCard({ item, duplicate = false }) {
+function HighlightCard({ item }) {
   if (item.kind === "article") {
-    const className = `certification-link article-highlight-card ${duplicate ? "is-duplicate" : ""}`;
+    const className = "certification-link article-highlight-card";
     const content = (
       <>
         <div className="article-highlight-preview">
@@ -247,14 +251,6 @@ function HighlightCard({ item, duplicate = false }) {
         </div>
       </>
     );
-
-    if (duplicate) {
-      return (
-        <div className={className} aria-hidden="true">
-          {content}
-        </div>
-      );
-    }
 
     return (
       <a
@@ -269,80 +265,14 @@ function HighlightCard({ item, duplicate = false }) {
     );
   }
 
-  return <CertificateCard certificate={item} duplicate={duplicate} />;
-}
-
-function WorkCard({ project, duplicate = false }) {
-  const className = `work-card project-showcase ${duplicate ? "is-duplicate" : ""}`;
-  const content = (
-    <div className="project-copy work-card-copy">
-      <div className="project-title-row">
-        <h3>{project.title}</h3>
-        {project.href ? (
-          <span className="project-link-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M14 5h5v5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M10 14 19 5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M19 13v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-        ) : null}
-      </div>
-      <p>{project.summary}</p>
-    </div>
-  );
-
-  if (duplicate) {
-    return (
-      <div className={className} aria-hidden="true">
-        {content}
-      </div>
-    );
-  }
-
-  if (!project.href) {
-    return <article className={className}>{content}</article>;
-  }
-
-  return (
-    <a
-      className={className}
-      href={project.href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={`Open ${project.title}`}
-      title={`Open ${project.title}`}
-    >
-      {content}
-    </a>
-  );
+  return <CertificateCard certificate={item} />;
 }
 
 function App() {
   const [portraitAnimating, setPortraitAnimating] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const [selectedProjectId, setSelectedProjectId] = useState(projects[0].id);
+  const selectedProject = projects.find(({ id }) => id === selectedProjectId) || projects[0];
   useEffect(() => {
     if (!window.THREE) return;
     const THREE = window.THREE;
@@ -364,7 +294,10 @@ function App() {
     const splashes = [];
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
-    const limit = 20;
+    const mobile = matchMedia("(max-width: 720px)").matches;
+    const limit = mobile ? 8 : 20;
+    const fizzLimit = mobile ? 32 : 120;
+    const fizzPerScroll = mobile ? 4 : 12;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let lastFizz = 0;
     const spawn = (count, y = -innerHeight / 2 - 20) => {
@@ -384,10 +317,10 @@ function App() {
     };
     spawn(limit, 0);
     const onScroll = () => {
-      if (reduced || performance.now() - lastFizz < 180) return;
+      if (reduced || performance.now() - lastFizz < (mobile ? 320 : 180)) return;
       lastFizz = performance.now();
       if (bubbles.length < limit) spawn(limit - bubbles.length, -innerHeight / 2 - 20);
-      for (let i = 0; i < 12 && fizz.length < 120; i++) {
+      for (let i = 0; i < fizzPerScroll && fizz.length < fizzLimit; i++) {
         const radius = 3 + Math.random() * 6;
         const mesh = new THREE.Mesh(new THREE.CircleGeometry(radius, 16), material);
         mesh.position.set((Math.random() - .5) * innerWidth, -innerHeight / 2 - Math.random() * 90, 1.5);
@@ -581,7 +514,7 @@ function App() {
 
         <div className="hero-grid editorial-hero">
           <section className="hero-copy hero-copy-editorial">
-            <p className="eyebrow">Full stack developer • AWS certified • horse mom</p>
+            <p className="eyebrow">Senior full stack developer in Pune, India • AWS certified • horse mom</p>
             <h1>
               Explore how thoughtful products take shape with me
             </h1>
@@ -658,19 +591,33 @@ function App() {
             <h2>Work</h2>
           </div>
 
-          <div className="work-marquee">
-            <div className="work-track">
+          <div className="project-explorer">
+            <div className="project-picker" role="group" aria-label="Select a project">
               {projects.map((project) => (
-                <WorkCard key={project.id} project={project} />
-              ))}
-              {projects.map((project, index) => (
-                <WorkCard
-                  key={`${project.id}-duplicate-${index}`}
-                  project={project}
-                  duplicate={true}
-                />
+                <button
+                  type="button"
+                  key={project.id}
+                  className="project-picker-item"
+                  aria-pressed={project.id === selectedProject.id}
+                  onClick={() => setSelectedProjectId(project.id)}
+                >
+                  <span className="project-picker-copy">
+                    <strong>{project.title}</strong>
+                    <span>{project.summary}</span>
+                  </span>
+                </button>
               ))}
             </div>
+
+            <article key={selectedProject.id} className="project-detail-card" aria-live="polite">
+              <h3>{selectedProject.title}</h3>
+              <p>{selectedProject.summary}</p>
+              {selectedProject.href ? (
+                <a className="button primary project-detail-link" href={selectedProject.href} target="_blank" rel="noreferrer">
+                  Explore project
+                </a>
+              ) : null}
+            </article>
           </div>
         </section>
 
@@ -726,19 +673,10 @@ function App() {
           </div>
 
           <div className="highlights-stack">
-            <div className="certification-marquee">
-              <div className="certification-track">
-                {highlights.map((item) => (
-                  <HighlightCard key={`${item.kind}-${item.title}`} item={item} />
-                ))}
-                {highlights.map((item, index) => (
-                  <HighlightCard
-                    key={`${item.kind}-${item.title}-duplicate-${index}`}
-                    item={item}
-                    duplicate={true}
-                  />
-                ))}
-              </div>
+            <div className="highlights-grid">
+              {highlights.map((item) => (
+                <HighlightCard key={`${item.kind}-${item.title}`} item={item} />
+              ))}
             </div>
           </div>
         </section>
@@ -783,6 +721,17 @@ function App() {
                   </a>
                 ))}
               </div>
+              <iframe
+                className="substack-embed"
+                src="https://niharika671984.substack.com/embed"
+                title="Substack subscription form"
+                width="320"
+                height="200"
+                style={{ border: "1px solid #EEE", background: "white" }}
+                frameBorder="0"
+                scrolling="no"
+                loading="lazy"
+              />
               <div className="contact-actions">
                 <a className="button primary" href="mailto:argade.niharika@gmail.com">
                   argade.niharika@gmail.com
