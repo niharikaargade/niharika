@@ -19,6 +19,10 @@ const socialLinks = [
     label: "YouTube",
     href: "https://youtu.be/j0Z9Up9zviU",
   },
+  {
+    label: "Substack",
+    href: "https://niharika671984.substack.com/?r=57v5z4&utm_campaign=pub-share-checklist",
+  },
 ];
 
 const resumeHref = "resources/resume/Niharika-Argade-Resume.docx";
@@ -87,6 +91,11 @@ const timeline = [
 
 const workTimeline = [...timeline].reverse();
 
+const techIcons = {
+  "React.js": "react", JavaScript: "javascript", TypeScript: "typescript", HTML: "html5", CSS: "css3",
+  "Spring Boot": "spring", "Node.js": "nodejs", Django: "simple/django", PostgreSQL: "postgresql", MySQL: "mysql", "AWS Cloud": "amazonwebservices", "Google Cloud": "googlecloud", Firebase: "firebase", Pandas: "pandas", "ChatGPT": "simple/openai", Anthropic: "simple/anthropic", BLE: "simple/bluetooth",
+};
+
 const techGroups = [
   {
     label: "Frontend",
@@ -102,7 +111,7 @@ const techGroups = [
   },
   {
     label: "Devices & AI",
-    items: ["BLE", "NFC", "MQTT", "Agentic AI applications"],
+    items: ["BLE", "NFC", "MQTT", "ChatGPT", "Anthropic"],
   },
 ];
 
@@ -187,6 +196,14 @@ function SocialIcon({ label }) {
     );
   }
 
+  if (label === "Substack") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M22.539 8.242H1.46V5.406h21.08zm0 2.852H1.46V24L12 18.176 22.54 24zM22.539 0H1.46v2.836h21.08z" fill="currentColor" />
+      </svg>
+    );
+  }
+
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M23 7.2a2.95 2.95 0 0 0-2.08-2.09C19.08 4.6 12 4.6 12 4.6s-7.08 0-8.92.5A2.95 2.95 0 0 0 1 7.2a30.6 30.6 0 0 0-.5 5.7A30.6 30.6 0 0 0 1 18.6a2.95 2.95 0 0 0 2.08 2.09c1.84.5 8.92.5 8.92.5s7.08 0 8.92-.5A2.95 2.95 0 0 0 23 18.6a30.6 30.6 0 0 0 .5-5.7 30.6 30.6 0 0 0-.5-5.7ZM9.75 16.4V9.4l6.1 3.5-6.1 3.5Z" fill="currentColor" />
@@ -194,26 +211,18 @@ function SocialIcon({ label }) {
   );
 }
 
-function CertificateCard({ certificate, duplicate = false }) {
-  const cardClassName = `certification-link ${certificate.featured ? "featured" : ""} ${duplicate ? "is-duplicate" : ""}`;
+function CertificateCard({ certificate }) {
+  const cardClassName = `certification-link ${certificate.featured ? "featured" : ""}`;
   const content = (
     <>
       <div className="certification-preview">
-        <img src={certificate.preview} alt={duplicate ? "" : certificate.alt} />
+        <img src={certificate.preview} alt={certificate.alt} />
       </div>
       <div className="certification-copy">
         <strong>{certificate.title}</strong>
       </div>
     </>
   );
-
-  if (duplicate) {
-    return (
-      <div className={cardClassName} aria-hidden="true">
-        {content}
-      </div>
-    );
-  }
 
   return (
     <a
@@ -228,9 +237,9 @@ function CertificateCard({ certificate, duplicate = false }) {
   );
 }
 
-function HighlightCard({ item, duplicate = false }) {
+function HighlightCard({ item }) {
   if (item.kind === "article") {
-    const className = `certification-link article-highlight-card ${duplicate ? "is-duplicate" : ""}`;
+    const className = "certification-link article-highlight-card";
     const content = (
       <>
         <div className="article-highlight-preview">
@@ -242,14 +251,6 @@ function HighlightCard({ item, duplicate = false }) {
         </div>
       </>
     );
-
-    if (duplicate) {
-      return (
-        <div className={className} aria-hidden="true">
-          {content}
-        </div>
-      );
-    }
 
     return (
       <a
@@ -264,79 +265,121 @@ function HighlightCard({ item, duplicate = false }) {
     );
   }
 
-  return <CertificateCard certificate={item} duplicate={duplicate} />;
-}
-
-function WorkCard({ project, duplicate = false }) {
-  const className = `work-card project-showcase ${duplicate ? "is-duplicate" : ""}`;
-  const content = (
-    <div className="project-copy work-card-copy">
-      <div className="project-title-row">
-        <h3>{project.title}</h3>
-        {project.href ? (
-          <span className="project-link-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M14 5h5v5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M10 14 19 5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M19 13v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-        ) : null}
-      </div>
-      <p>{project.summary}</p>
-    </div>
-  );
-
-  if (duplicate) {
-    return (
-      <div className={className} aria-hidden="true">
-        {content}
-      </div>
-    );
-  }
-
-  if (!project.href) {
-    return <article className={className}>{content}</article>;
-  }
-
-  return (
-    <a
-      className={className}
-      href={project.href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={`Open ${project.title}`}
-      title={`Open ${project.title}`}
-    >
-      {content}
-    </a>
-  );
+  return <CertificateCard certificate={item} />;
 }
 
 function App() {
   const [portraitAnimating, setPortraitAnimating] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState(projects[0].id);
+  const selectedProject = projects.find(({ id }) => id === selectedProjectId) || projects[0];
+  useEffect(() => {
+    if (!window.THREE) return;
+    const THREE = window.THREE;
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.domElement.className = "bubble-canvas";
+    renderer.domElement.setAttribute("aria-hidden", "true");
+    document.querySelector(".page-shell")?.prepend(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-innerWidth / 2, innerWidth / 2, innerHeight / 2, -innerHeight / 2, 1, 100);
+    camera.position.z = 50;
+    const material = new THREE.ShaderMaterial({ transparent: true, depthWrite: false,
+      vertexShader: `varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+      fragmentShader: `varying vec2 vUv; void main(){vec2 p=vUv-.5;float r=length(p)*2.;if(r>1.)discard;float rim=smoothstep(.72,.98,r);float sheen=pow(max(0.,dot(normalize(vec3(p*1.3,sqrt(max(0.,1.-r*r)))),normalize(vec3(-.4,.5,1.)))),5.);float hue=.5+.5*sin(atan(p.y,p.x)*2.+r*8.);vec3 iridescence=mix(vec3(.55,.75,1.),vec3(1.,.62,.88),hue);float alpha=.12+rim*.26+sheen*.32;gl_FragColor=vec4(mix(iridescence,vec3(1.),sheen*.7),alpha);}` });
+    const bubbles = [];
+    const fizz = [];
+    const splashes = [];
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    const mobile = matchMedia("(max-width: 720px)").matches;
+    const limit = mobile ? 8 : 20;
+    const fizzLimit = mobile ? 32 : 120;
+    const fizzPerScroll = mobile ? 4 : 12;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let lastFizz = 0;
+    const spawn = (count, y = -innerHeight / 2 - 20) => {
+      for (let i = 0; i < count; i++) {
+        if (bubbles.length >= limit) {
+          const oldest = bubbles.shift();
+          scene.remove(oldest.mesh); oldest.mesh.geometry.dispose();
+        }
+        const radius = Math.random() < .35 ? 76 + Math.random() * 34 : 30 + Math.random() * 38;
+        const mesh = new THREE.Mesh(new THREE.CircleGeometry(radius, 32), material);
+        const x = (Math.random() - .5) * Math.max(0, innerWidth - radius * 2);
+        const bubbleY = reduced ? (Math.random() - .5) * Math.max(0, innerHeight - radius * 2) : y < -innerHeight / 2 ? y - Math.random() * 70 : (Math.random() - .5) * Math.max(0, innerHeight - radius * 2);
+        mesh.position.set(x, bubbleY, Math.random() < .18 ? 2 : 0);
+        scene.add(mesh);
+        bubbles.push({ mesh, radius, vx: (Math.random() - .5) * 1.2, vy: (Math.random() - .5) * 1.2 });
+      }
+    };
+    spawn(limit, 0);
+    const onScroll = () => {
+      if (reduced || performance.now() - lastFizz < (mobile ? 320 : 180)) return;
+      lastFizz = performance.now();
+      if (bubbles.length < limit) spawn(limit - bubbles.length, -innerHeight / 2 - 20);
+      for (let i = 0; i < fizzPerScroll && fizz.length < fizzLimit; i++) {
+        const radius = 3 + Math.random() * 6;
+        const mesh = new THREE.Mesh(new THREE.CircleGeometry(radius, 16), material);
+        mesh.position.set((Math.random() - .5) * innerWidth, -innerHeight / 2 - Math.random() * 90, 1.5);
+        scene.add(mesh); fizz.push({ mesh, radius, speed: 1 + Math.random() * 2 });
+      }
+    };
+    const burstBubble = (event) => {
+      pointer.set(event.clientX / innerWidth * 2 - 1, -(event.clientY / innerHeight) * 2 + 1);
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObjects(bubbles.map(({ mesh }) => mesh))[0];
+      if (!hit) return;
+      const index = bubbles.findIndex(({ mesh }) => mesh === hit.object);
+      const [bubble] = bubbles.splice(index, 1);
+      const center = bubble.mesh.position;
+      scene.remove(bubble.mesh); bubble.mesh.geometry.dispose();
+      for (let i = 0; i < 9; i++) {
+        const drop = new THREE.Mesh(new THREE.CircleGeometry(3 + Math.random() * 4, 12), material);
+        drop.position.copy(center); scene.add(drop);
+        splashes.push({ mesh: drop, vx: (Math.random() - .5) * 5, vy: (Math.random() - .5) * 5 - 1, life: 45 });
+      }
+    };
+    const resize = () => {
+      camera.left = -innerWidth / 2; camera.right = innerWidth / 2; camera.top = innerHeight / 2; camera.bottom = -innerHeight / 2; camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    };
+    let frame;
+    const animate = () => {
+      if (document.hidden) { frame = requestAnimationFrame(animate); return; }
+      bubbles.forEach((bubble) => {
+        if (reduced) return;
+        bubble.mesh.position.x += bubble.vx; bubble.mesh.position.y += bubble.vy;
+        const xEdge = innerWidth / 2 - bubble.radius, yEdge = innerHeight / 2 - bubble.radius;
+        if (Math.abs(bubble.mesh.position.x) > xEdge) { bubble.mesh.position.x = Math.sign(bubble.mesh.position.x) * xEdge; bubble.vx *= -1; }
+        if (Math.abs(bubble.mesh.position.y) > yEdge) { bubble.mesh.position.y = Math.sign(bubble.mesh.position.y) * yEdge; bubble.vy *= -1; }
+      });
+      fizz.forEach((bubble) => { bubble.mesh.position.y += bubble.speed; });
+      for (let i = fizz.length - 1; i >= 0; i--) if (fizz[i].mesh.position.y > innerHeight / 2 + fizz[i].radius) { scene.remove(fizz[i].mesh); fizz[i].mesh.geometry.dispose(); fizz.splice(i, 1); }
+      for (let i = 0; i < bubbles.length; i++) for (let j = i + 1; j < bubbles.length; j++) {
+        const a = bubbles[i], b = bubbles[j];
+        const dx = b.mesh.position.x - a.mesh.position.x, dy = b.mesh.position.y - a.mesh.position.y;
+        if (dx * (b.vx - a.vx) + dy * (b.vy - a.vy) >= 0 || a.mesh.position.distanceTo(b.mesh.position) >= a.radius + b.radius) continue;
+        for (const bubble of [a, b]) {
+          scene.remove(bubble.mesh); bubble.mesh.geometry.dispose();
+          for (let n = 0; n < 10; n++) {
+            const drop = new THREE.Mesh(new THREE.CircleGeometry(4 + Math.random() * 5, 12), material);
+            drop.position.copy(bubble.mesh.position); scene.add(drop);
+            splashes.push({ mesh: drop, vx: (Math.random() - .5) * 7, vy: (Math.random() - .5) * 7, life: 42 });
+          }
+        }
+        bubbles.splice(j, 1); bubbles.splice(i, 1); i--; break;
+      }
+      splashes.forEach((drop) => { drop.mesh.position.x += drop.vx; drop.mesh.position.y += drop.vy; drop.vy -= .12; drop.life--; drop.mesh.material = material; drop.mesh.scale.setScalar(Math.max(0, drop.life / 45)); });
+      for (let i = splashes.length - 1; i >= 0; i--) if (splashes[i].life <= 0) { scene.remove(splashes[i].mesh); splashes[i].mesh.geometry.dispose(); splashes.splice(i, 1); }
+      renderer.render(scene, camera);
+      if (!reduced) frame = requestAnimationFrame(animate);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", resize); window.addEventListener("click", burstBubble); animate();
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", resize); window.removeEventListener("click", burstBubble); splashes.forEach(({ mesh }) => mesh.geometry.dispose()); fizz.forEach(({ mesh }) => mesh.geometry.dispose()); bubbles.forEach(({ mesh }) => mesh.geometry.dispose()); material.dispose(); renderer.dispose(); renderer.domElement.remove(); };
+  }, []);
 
   useEffect(() => {
     if (!portraitAnimating) {
@@ -471,7 +514,7 @@ function App() {
 
         <div className="hero-grid editorial-hero">
           <section className="hero-copy hero-copy-editorial">
-            <p className="eyebrow">Full stack developer • AWS certified • horse mom</p>
+            <p className="eyebrow">Senior full stack developer in Pune, India • AWS certified • horse mom</p>
             <h1>
               Explore how thoughtful products take shape with me
             </h1>
@@ -509,12 +552,14 @@ function App() {
             </div>
 
             <div className="timeline-cards timeline-cards-editorial work-bubble-grid">
-              {workTimeline.map((entry) => (
-                <article key={`${entry.year}-${entry.title}`} className="timeline-card timeline-card-work work-bubble-card">
+              {[...workTimeline].reverse().map((entry) => (
+                <div key={`${entry.year}-${entry.title}`} className="journey-milestone">
+                  <article className="timeline-card timeline-card-work work-bubble-card">
+                    <h3>{entry.title}</h3>
+                    <p className="timeline-place">{entry.place}</p>
+                  </article>
                   <span className="timeline-year">{entry.year}</span>
-                  <h3>{entry.title}</h3>
-                  <p className="timeline-place">{entry.place}</p>
-                </article>
+                </div>
               ))}
             </div>
           </section>
@@ -524,21 +569,16 @@ function App() {
               <h2>Core stack</h2>
             </div>
 
-            <div className="stack-lines stack-group-grid">
-              {techGroups.map((group) => (
-                <article key={group.label} className="stack-line stack-group-card">
-                  <span className="stack-group-label">{group.label}</span>
-                  <div className="stack-track">
-                    {group.items.map((item) => (
-                      <span
-                        key={`${group.label}-${item}`}
-                        className="stack-bubble"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </article>
+            <div className="stack-orbit" aria-label="Core technology icon clusters">
+              {[techGroups[2], techGroups[0], techGroups[3], techGroups[1]].map((group) => (
+                <div className="stack-orbit-cluster" key={group.label}>
+                  <span className="stack-orbit-category">{group.label}</span>
+                  {group.items.filter((item) => techIcons[item]).map((item) => (
+                    <span className="stack-orbit-icon" key={item} title={item}>
+                      <img src={techIcons[item].startsWith("simple/") ? `https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/${techIcons[item].slice(7)}.svg` : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${techIcons[item]}/${techIcons[item].split("/").at(-1)}-original.svg`} alt={item} loading="lazy" />
+                    </span>
+                  ))}
+                </div>
               ))}
             </div>
           </section>
@@ -551,19 +591,33 @@ function App() {
             <h2>Work</h2>
           </div>
 
-          <div className="work-marquee">
-            <div className="work-track">
+          <div className="project-explorer">
+            <div className="project-picker" role="group" aria-label="Select a project">
               {projects.map((project) => (
-                <WorkCard key={project.id} project={project} />
-              ))}
-              {projects.map((project, index) => (
-                <WorkCard
-                  key={`${project.id}-duplicate-${index}`}
-                  project={project}
-                  duplicate={true}
-                />
+                <button
+                  type="button"
+                  key={project.id}
+                  className="project-picker-item"
+                  aria-pressed={project.id === selectedProject.id}
+                  onClick={() => setSelectedProjectId(project.id)}
+                >
+                  <span className="project-picker-copy">
+                    <strong>{project.title}</strong>
+                    <span>{project.summary}</span>
+                  </span>
+                </button>
               ))}
             </div>
+
+            <article key={selectedProject.id} className="project-detail-card" aria-live="polite">
+              <h3>{selectedProject.title}</h3>
+              <p>{selectedProject.summary}</p>
+              {selectedProject.href ? (
+                <a className="button primary project-detail-link" href={selectedProject.href} target="_blank" rel="noreferrer">
+                  Explore project
+                </a>
+              ) : null}
+            </article>
           </div>
         </section>
 
@@ -576,6 +630,7 @@ function App() {
             {horseStory.map((item) => {
               const content = (
                 <>
+                  <span className="polaroid-clip" aria-hidden="true" />
                   {item.image ? <img src={item.image} alt={item.title} /> : null}
                   <div className="horse-note-caption">
                     {item.badge ? <span className="horse-note-badge">{item.badge}</span> : null}
@@ -618,19 +673,10 @@ function App() {
           </div>
 
           <div className="highlights-stack">
-            <div className="certification-marquee">
-              <div className="certification-track">
-                {highlights.map((item) => (
-                  <HighlightCard key={`${item.kind}-${item.title}`} item={item} />
-                ))}
-                {highlights.map((item, index) => (
-                  <HighlightCard
-                    key={`${item.kind}-${item.title}-duplicate-${index}`}
-                    item={item}
-                    duplicate={true}
-                  />
-                ))}
-              </div>
+            <div className="highlights-grid">
+              {highlights.map((item) => (
+                <HighlightCard key={`${item.kind}-${item.title}`} item={item} />
+              ))}
             </div>
           </div>
         </section>
@@ -675,6 +721,17 @@ function App() {
                   </a>
                 ))}
               </div>
+              <iframe
+                className="substack-embed"
+                src="https://niharika671984.substack.com/embed"
+                title="Substack subscription form"
+                width="320"
+                height="200"
+                style={{ border: "1px solid #EEE", background: "white" }}
+                frameBorder="0"
+                scrolling="no"
+                loading="lazy"
+              />
               <div className="contact-actions">
                 <a className="button primary" href="mailto:argade.niharika@gmail.com">
                   argade.niharika@gmail.com
