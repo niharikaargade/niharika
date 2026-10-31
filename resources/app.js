@@ -514,12 +514,13 @@ function App() {
 
         <div className="hero-grid editorial-hero">
           <section className="hero-copy hero-copy-editorial">
-            <p className="eyebrow">Senior full stack developer in Pune, India • AWS certified • horse mom</p>
+            <p className="eyebrow">Agentic AI Engineer • Senior Full Stack Developer • Pune, India</p>
             <h1>
               Explore how thoughtful products take shape with me
             </h1>
 
             <p className="hero-connection">Building tech and connection with a little sparkle</p>
+            <p className="hero-summary">I’m Niharika Argade. I build AI-enabled applications and end-to-end products across web, mobile, cloud, and IoT.</p>
           </section>
 
           <section className="hero-visual hero-visual-editorial">

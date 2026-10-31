@@ -591,6 +591,24 @@ h6,
   animation: fadeSoft 1360ms cubic-bezier(0.2, 0.65, 0.2, 1) both 340ms;
 }
 
+.hero-summary {
+  max-width: 34rem;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.no-script-profile {
+  max-width: 52rem;
+  margin: 3rem auto;
+  padding: 0 1.25rem;
+  color: var(--ink);
+  font-family: "Nunito", sans-serif;
+  line-height: 1.65;
+}
+
 .cta-row {
   display: flex;
   flex-wrap: wrap;
